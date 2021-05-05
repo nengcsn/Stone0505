@@ -42,9 +42,20 @@ public class StoneAnalyser : MonoBehaviour
  
     }
 
+    public void PlaceStoneByLongestDirection(MeshFilter Stone)
+    {
+        Mesh stone = Stone.GetComponent<MeshFilter>().mesh;
+        Vector3 direction = stone.bounds.max - stone.bounds.min;
+        Stone.transform.rotation = Quaternion.FromToRotation(Vector3.right, direction);
+    }
+
     void Start()
     {
         Stones = FindObjectsOfType<MeshFilter>();
+        for (int i = 0; i < Stones.Length; i++)
+        {
+            PlaceStoneByLongestDirection(Stones[i]);
+        }
         Invoke("InvokeVoxeliseMesh", 2);
     }
     void InvokeVoxeliseMesh()
